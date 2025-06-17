@@ -1,0 +1,7 @@
+lang_name: "Chinese (Simplified)"
+lang_name_native: "简体中文"
+
+"Button": "按钮"
+"The button has not been pressed": "按钮未按下"
+"The button was pressed": "按钮被按下"
+"Application \"i18n\"": "计划 \"i18n\""

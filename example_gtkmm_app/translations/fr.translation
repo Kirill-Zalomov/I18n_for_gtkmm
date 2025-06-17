@@ -1,0 +1,7 @@
+lang_name: "French"
+lang_name_native: "Français"
+
+"Button": "Bouton"
+"The button has not been pressed": "Le bouton n'a pas été enfoncé"
+"The button was pressed": "Le bouton a été enfoncé"
+"Application \"i18n\"": "Le programme \"i18n\""

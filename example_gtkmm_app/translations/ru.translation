@@ -1,0 +1,7 @@
+lang_name: "Russian"
+lang_name_native: "Русский"
+
+"Button": "Кнопка"
+"The button has not been pressed": "Кнопка не была нажата"
+"The button was pressed": "Кнопка была нажата"
+"Application \"i18n\"": "Приложение \"i18n\""
