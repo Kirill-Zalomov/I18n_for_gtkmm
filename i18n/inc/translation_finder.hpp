@@ -3,7 +3,9 @@
 
 
 #include <list>
+#include <string>
 #include <filesystem>
+#include <stdexcept>
 
 
 // TODO: Сделать для описания элементов класса для DOxygen

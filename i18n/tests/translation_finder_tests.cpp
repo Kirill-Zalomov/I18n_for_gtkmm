@@ -3,9 +3,11 @@
 
 
 #include <list>
+#include <string>
 #include <fstream>
 #include <algorithm>
 #include <filesystem>
+#include <stdexcept>
 
 
 TEST_CASE("Test get_paths_to_translation_files exceptions", "[TranslationFinder]") {
