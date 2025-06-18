@@ -1,36 +1,28 @@
 #include "translation_finder.hpp"
 
 
-TranslationFinder::TranslationFinder(const Glib::ustring &path_to_translation_folder = "translations/") {
-    path_to_translation_folder_ = path_to_translation_folder;
-}
+TranslationFinder::TranslationFinder() {}
 
 
-void
-TranslationFinder::set_path_to_translation_folder(const Glib::ustring &path_to_translation_folder) {
-    path_to_translation_folder_ = path_to_translation_folder;
-}
+std::list<std::string>
+get_paths_to_translation_files(const std::string &path_to_folder)
+{
+    std::list<std::string> translation_files;
+    std::error_code ec;
 
-
-Glib::ustring
-TranslationFinder::get_path_to_translation_folder() const noexcept {
-    return path_to_translation_folder_;
-}
-
-
-// TODO: Дописать реализацию функции поиска файлов перевода
-std::list<Glib::ustring>
-TranslationFinder::get_translation_paths() {
-    if(path_to_translation_folder_.empty()) {
-        // TODO: Дописать, какое исключение должно быть выброшено
+    if (!std::filesystem::exists(path_to_folder)) {
+        throw std::runtime_error("directory \"" + path_to_folder + "\" does not exist");
     }
 
-    std::list<Glib::ustring> traslations;
-    try {
-        for (const auto& entry : fs::directory_iterator(path)) {
-            std::cout << entry.path() << std::endl;
+    if (!std::filesystem::is_directory(path_to_folder, ec)) {
+        throw std::runtime_error("\"" + path_to_folder + "\" is not a directory");
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(path_to_folder)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".translation") {
+            translation_files.push_back(entry.path().string());
         }
-    } catch (const fs::filesystem_error& e) {
-        std::cerr << "Ошибка: " << e.what() << std::endl;
     }
+
+    return translation_files;
 }

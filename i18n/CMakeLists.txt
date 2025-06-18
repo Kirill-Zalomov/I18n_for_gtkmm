@@ -9,11 +9,17 @@ set(VERSION_GIOBMM "2.68")
 
 
 find_package(PkgConfig REQUIRED)
+find_package(Catch2 REQUIRED)
 pkg_check_modules(GLIBMM REQUIRED glibmm-${VERSION_GLIBMM} giomm-${VERSION_GIOBMM})
 
 
 set(SOURCES
-    src/
+    src/translation_finder.cpp
+)
+
+
+set(SOURCES_OF_TESTS
+    tests/translation_finder_tests.cpp
 )
 
 
@@ -26,3 +32,14 @@ target_include_directories(app PRIVATE
 target_link_libraries(app PRIVATE
     ${GLIBMM_LIBRARIES}
 )
+
+
+add_executable(tests ${SOURCES} ${SOURCES_OF_TESTS})
+target_include_directories(tests PRIVATE
+    "./"
+    "./inc/"
+    ${GLIBMM_INCLUDE_DIRS}
+)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+enable_testing()
+add_test(NAME tests COMMAND tests)
