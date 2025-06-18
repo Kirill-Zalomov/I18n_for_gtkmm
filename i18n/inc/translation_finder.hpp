@@ -15,7 +15,7 @@ class TranslationFinder {
     public:
         std::list<std::string>
         get_paths_to_translation_files(const std::string &path_to_folder = "translations");
-}
+};
 
 
 #endif // TRANSLATION_FINDER_HPP

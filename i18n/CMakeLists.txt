@@ -23,15 +23,15 @@ set(SOURCES_OF_TESTS
 )
 
 
-add_executable(app ${SOURCES})
-target_include_directories(app PRIVATE
-    "./"
-    "./inc/"
-    ${GLIBMM_INCLUDE_DIRS}
-)
-target_link_libraries(app PRIVATE
-    ${GLIBMM_LIBRARIES}
-)
+# add_executable(app ${SOURCES})
+# target_include_directories(app PRIVATE
+#     "./"
+#     "./inc/"
+#     ${GLIBMM_INCLUDE_DIRS}
+# )
+# target_link_libraries(app PRIVATE
+#     ${GLIBMM_LIBRARIES}
+# )
 
 
 add_executable(tests ${SOURCES} ${SOURCES_OF_TESTS})
@@ -40,6 +40,9 @@ target_include_directories(tests PRIVATE
     "./inc/"
     ${GLIBMM_INCLUDE_DIRS}
 )
-target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(tests PRIVATE
+    Catch2::Catch2WithMain
+    ${GLIBMM_LIBRARIES}
+)
 enable_testing()
 add_test(NAME tests COMMAND tests)

@@ -5,8 +5,8 @@ TranslationFinder::TranslationFinder() {}
 
 
 std::list<std::string>
-get_paths_to_translation_files(const std::string &path_to_folder)
-{
+TranslationFinder::get_paths_to_translation_files(const std::string &path_to_folder) {
+
     std::list<std::string> translation_files;
     std::error_code ec;
 
