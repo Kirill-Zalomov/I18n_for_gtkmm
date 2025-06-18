@@ -1,0 +1,8 @@
+#ifndef TRANSLATION_ITEM_HPP
+#define TRANSLATION_ITEM_HPP
+
+
+
+
+
+#endif // TRANSLATION_ITEM_HPP
