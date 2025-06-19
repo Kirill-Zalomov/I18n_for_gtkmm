@@ -9,7 +9,7 @@
 class FileReader {
 
     public:
-        void read_all_content(std::list<Glib::ustring> buffer, const std::string &path_to_file);
+        void read_all_lines(const std::string &path_to_file, std::list<Glib::ustring> &buffer);
 
 }
 
