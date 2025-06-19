@@ -11,41 +11,36 @@
 
 
 TEST_CASE("Test get_paths_to_translation_files exceptions", "[TranslationFinder]") {
-    // Создание объекта TranslationFinder, общего для всех секций ниже
     TranslationFinder translation_finder;
 
     SECTION("Throws when directory doesn't exist") {
-        // Проверка типа и сообщения исключения
+        std::string directory_path = "/translations/nonexistent_dir";
+
         REQUIRE_THROWS_MATCHES(
-            translation_finder.get_paths_to_translation_files("/nonexistent/path"),
+            translation_finder.get_paths_to_translation_files(directory_path),
             std::runtime_error,
-            Catch::Matchers::Message("directory \"/nonexistent/path\" does not exist")
+            Catch::Matchers::Message("directory \"" + directory_path + "\" does not exist")
         );
     }
 
     SECTION("Throws when path is not a directory") {
-        // Создание временного файла для теста
-        std::ofstream tmpfile("not_a_directory.tmp");
-        tmpfile.close();
+        std::string   file_path = "not_a_directory.tmp";
+        std::ofstream tmpfile(file_path).close();
 
-        // Проверка типа и сообщения исключения
         REQUIRE_THROWS_MATCHES(
-            translation_finder.get_paths_to_translation_files("not_a_directory.tmp"),
+            translation_finder.get_paths_to_translation_files(file_path),
             std::runtime_error,
-            Catch::Matchers::Message("\"not_a_directory.tmp\" is not a directory")
+            Catch::Matchers::Message("\"" + file_path + "\" is not a directory")
         );
 
-        // Удаление временного файла для теста
-        std::filesystem::remove("not_a_directory.tmp");
+        std::filesystem::remove(file_path);
     }
 }
 
 
 TEST_CASE("Test get_paths_to_translation_files correct behavior", "[TranslationFinder]") {
-    // Создание объекта TranslationFinder, общего для всех секций ниже
     TranslationFinder translation_finder;
 
-    // Создание тестовой директории с файлами
     std::filesystem::create_directory("translations");
     std::ofstream("translations/ru.translation").close();
     std::ofstream("translations/fr.translation").close();
@@ -54,12 +49,10 @@ TEST_CASE("Test get_paths_to_translation_files correct behavior", "[TranslationF
     SECTION("Returns only *.translation files") {
         std::list<std::string> files = translation_finder.get_paths_to_translation_files("translations");
 
-        // Проверка, что найдены 2 файла с расширением *.translation
         REQUIRE(files.size() == 2);
-        REQUIRE(std::find(files.begin(), files.end(), "translations/ru.translation") != files.end());
-        REQUIRE(std::find(files.begin(), files.end(), "translations/fr.translation") != files.end());
+        REQUIRE(std::find(files.cbegin(), files.cend(), "translations/ru.translation") != files.cend());
+        REQUIRE(std::find(files.cbegin(), files.cend(), "translations/fr.translation") != files.cend());
     }
 
-    // Удаляем тестовую директорию
     std::filesystem::remove_all("translations");
 }
