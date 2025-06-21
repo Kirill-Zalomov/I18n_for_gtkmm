@@ -76,11 +76,11 @@ TEST_CASE("Test read_all_lines correct behavior", "[FileReader]") {
         file_reader.read_all_lines(file_path, buffer);
 
         REQUIRE(buffer.size() == 6);
-        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "lang_name: \"French\"\n") != buffer.cend());
-        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "lang_name_native: \"Français\"\n") != buffer.cend());
-        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\n") != buffer.cend());
-        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"Button\": \"Bouton\"\n") != buffer.cend());
-        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"The button has not been pressed\": \"Le bouton n'a pas été enfoncé\"\n") != buffer.cend());
+        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "lang_name: \"French\"") != buffer.cend());
+        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "lang_name_native: \"Français\"") != buffer.cend());
+        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "") != buffer.cend());
+        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"Button\": \"Bouton\"") != buffer.cend());
+        REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"The button has not been pressed\": \"Le bouton n'a pas été enfoncé\"") != buffer.cend());
         REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"The button was pressed\": \"Le bouton a été enfoncé\"") != buffer.cend());
 
         std::filesystem::remove(file_path);
