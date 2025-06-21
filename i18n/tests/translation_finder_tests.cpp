@@ -25,7 +25,8 @@ TEST_CASE("Test get_paths_to_translation_files exceptions", "[TranslationFinder]
 
     SECTION("Throws when path is not a directory") {
         std::string   file_path = "not_a_directory.tmp";
-        std::ofstream tmpfile(file_path).close();
+        std::ofstream tmpfile(file_path);
+        tmpfile.close();
 
         REQUIRE_THROWS_MATCHES(
             translation_finder.get_paths_to_translation_files(file_path),

@@ -4,6 +4,8 @@
 
 #include <list>
 #include <string>
+#include <filesystem>
+#include <fstream>
 #include <glibmm/ustring.h>
 
 
@@ -15,7 +17,7 @@ TEST_CASE("Test read_all_lines exceptions", "[FileReader]") {
         std::string file_to_read = "/translations/nonexistent_file.translation";
 
         REQUIRE_THROWS_MATCHES(
-            file_reader.read_all_lines(buffer, file_to_read),
+            file_reader.read_all_lines(file_to_read, buffer),
             std::runtime_error,
             Catch::Matchers::Message("file \"" + file_to_read + "\" does not exist")
         );
@@ -56,12 +58,12 @@ TEST_CASE("Test read_all_lines exceptions", "[FileReader]") {
 
 
 TEST_CASE("Test read_all_lines correct behavior", "[FileReader]") {
-    FileReader    file_reader;
-    std::list<std::ustring> buffer;
+    FileReader file_reader;
+    std::list<Glib::ustring> buffer;
 
     SECTION("Returns all lines of the file") {
         std::string   file_path = "fr.translation";
-        std::ifstream file_writer(file_path);
+        std::ofstream file_writer(file_path);
 
         file_writer << "lang_name: \"French\"\n";
         file_writer << "lang_name_native: \"Français\"\n";
@@ -71,11 +73,7 @@ TEST_CASE("Test read_all_lines correct behavior", "[FileReader]") {
         file_writer << "\"The button was pressed\": \"Le bouton a été enfoncé\"" << std::endl;
         file_writer.close();
 
-        std::ofstream file_to_read(file_path);
-
-        if(file_to_read.is_open()) {
-            buffer = file_reader.read_all_lines(file_path, buffer);
-        }
+        file_reader.read_all_lines(file_path, buffer);
 
         REQUIRE(buffer.size() == 6);
         REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "lang_name: \"French\"\n") != buffer.cend());
@@ -85,7 +83,6 @@ TEST_CASE("Test read_all_lines correct behavior", "[FileReader]") {
         REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"The button has not been pressed\": \"Le bouton n'a pas été enfoncé\"\n") != buffer.cend());
         REQUIRE(std::find(buffer.cbegin(), buffer.cend(), "\"The button was pressed\": \"Le bouton a été enfoncé\"") != buffer.cend());
 
-        file_to_read.close();
         std::filesystem::remove(file_path);
     }
 }
